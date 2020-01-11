@@ -6,7 +6,7 @@ const http = require("http").Server(app);
 const cors = require("cors");
 var io = require("socket.io")(http);
 const auth = require("./auth");
-const sockethandler = require('./socket')
+const messages = require("../controllers/messages");
 
 
 app.use(cors());
@@ -47,5 +47,18 @@ var server = http.listen(port, () => {
 //OK
 var socket = require('socket.io');
 var io = socket(server);
-io.on('connection', sockethandler);
-//
+io.on('connection', (socket) =>{
+  console.log('connected')
+  
+  var counter = 0
+  socket.on('message', ({username, text, chatId}) => {
+      //save to DB
+      //emit to all in room
+      console.log("message arrived", text, chatId,)
+      messages.Send(username, text, chatId)
+      console.log("room"+chatId);
+      io.emit("room"+chatId, { username, chatId, text })
+
+
+  })
+});
