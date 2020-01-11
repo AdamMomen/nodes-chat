@@ -10,10 +10,10 @@ function handler(socket, cb) {
     socket.on('message', ({username, text, chatId}) => {
         //save to DB
         //emit to all in room
-        console.log("message arrived", text)
-        socket.in(chatId).emit('message', { username, chatId, text });
+        console.log("message arrived", text, chatId)
+        // socket.in(chatId).emit('message', { username, chatId, text });
         messages.Send(username, text, chatId)
-
+        socket.emit('general', "general message")
     })
 }
 
