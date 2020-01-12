@@ -31,9 +31,9 @@ app.post("/sendmessage", function (req, res) {
   });
 });
 
- app.use(auth.middleware);
+//  app.use(auth.middleware);
 
- io.use(auth.socketMiddleware);
+//  io.use(auth.socketMiddleware);
 
 const port = process.env.PORT || 5001;
 
