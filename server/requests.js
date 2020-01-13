@@ -96,18 +96,18 @@ function getChat(req, res) {
   var user1 = req.body.user1;
   var user2 = req.body.user2;
   Chatroom.getroomId(user1, user2).then(data => {
-    if(data.rowCount>0) {
+    if (data.rowCount > 0) {
       var id = data.rows[0].idno;
-    messages
-      .Fetch(id)
-      .then(data => {
-        res.send({id, messages:data.rows});
-      })
-      .catch(err => {
-        res.send(err);
-      });
+      messages
+        .Fetch(id)
+        .then(data => {
+          res.send({ id, messages: data.rows });
+        })
+        .catch(err => {
+          res.send(err);
+        });
     } else {
-      res.send({error: "no messages", messages:[]})
+      res.send({ error: "no messages", messages: [] })
     }
   });
 }

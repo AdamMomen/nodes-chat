@@ -31,34 +31,29 @@ app.post("/sendmessage", function (req, res) {
   });
 });
 
- app.use(auth.middleware);
+app.use(auth.middleware);
 
- io.use(auth.socketMiddleware);
+io.use(auth.socketMiddleware);
 
 const port = process.env.PORT || 5001;
 
 var server = http.listen(port, () => {
-  console.log(`server running at ${server.address().port}`);
+  console.log('server running at ', server.address().port);
 });
 
-// ON CONNECTION 
-// USE SOCKET HANDLER 
-// PASS ROOM ID
-//OK
 var socket = require('socket.io');
 var io = socket(server);
-io.on('connection', (socket) =>{
+io.on('connection', (socket) => {
   console.log('connected')
-  
-  var counter = 0
-  socket.on('message', ({username, text, chatId}) => {
-      //save to DB
-      //emit to all in room
-      console.log("message arrived", text, chatId,)
-      messages.Send(username, text, chatId)
-      console.log("room"+chatId);
-      io.emit("room"+chatId, { username, chatId, text })
 
+  var counter = 0
+  socket.on('message', ({ username, text, chatId }) => {
+    //save to DB
+    //emit to all in room
+    console.log("message arrived", text, chatId)
+    messages.Send(username, text, chatId)
+    console.log("room" + chatId);
+    io.emit("room" + chatId, { username, chatId, text })
 
   })
 });
